@@ -3,9 +3,9 @@
 
 void _cdecl DOSKernMain(uint16_t bootDrive)
 {
-    DevInit();
-
     init_interrupts();
+
+    DevInit();
 
     printf("EXECUTING KERNEL...\r\n");
 

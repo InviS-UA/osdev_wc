@@ -9,9 +9,12 @@
 // Assembly wrapp handler
 extern void _cdecl int21_handler();
 
-void _cdecl init_interrupts();
-
 // C interrupt function
 void _cdecl Int21Handler(const REGS* regs);
 
+// Initialization functions
+void _cdecl init_interrupts();
+void _cdecl init_kernel();
+
+// Kernel entry point
 void _cdecl DOSKernMain(uint16_t bootDrive);

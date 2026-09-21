@@ -1,23 +1,21 @@
 #include "kernel.h"
 #include <clib/string.h>
+#include "x86/vga.h"
 
 void _cdecl DOSKernMain(uint16_t bootDrive)
 {
-    init_interrupts();
+    init_kernel();
 
-    DevInit();
-
-    printf("EXECUTING KERNEL...\r\n");
-
-    const char* msg = "Hello world!\r\n";
-
-    _asm {
-        mov ah, 09h
-        mov dx, msg
-        int 21h
-    };
+    printf("Hello from kernel!\n");
 
     for (;;);
+}
+
+void _cdecl init_kernel()
+{
+    init_interrupts();
+    DevInit();
+    VgaClear();
 }
 
 void _cdecl init_interrupts()

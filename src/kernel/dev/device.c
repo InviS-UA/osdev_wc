@@ -1,5 +1,6 @@
 #include "device.h"
 #include <clib/string.h>
+#include "x86/vga.h"
 
 static Device* devices[DEV_MAX];
 
@@ -16,12 +17,7 @@ size_t _cdecl ConsoleWrite(Device* dev, const void far* buff, size_t size)
     {
         char c = u8Buff[i];
 
-        _asm {
-            mov ah, 0Eh
-            mov al, c
-            mov bh, 0
-            int 10h
-        };
+        VgaPutc(c);
     }
 
     return size;

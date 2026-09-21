@@ -1,15 +1,11 @@
 #include "prf.h"
 #include <clib/stdarg.h>
 #include <clib/stdbool.h>
+#include "x86/vga.h"
 
 void _cdecl putc(char c)
 {
-    _asm {
-        mov ah, 0Eh
-        mov al, c
-        mov bh, 0
-        int 10h
-    };
+    VgaPutc(c);
 }
 
 void _cdecl puts(const char* str)

@@ -1,0 +1,132 @@
+Open Watcom Linker Version 2.0 beta Sep 18 2026 05:10:56 (64-bit)** EXPERIMENTAL (HLL) ** 
+Copyright (c) 2002-2026 The Open Watcom Contributors. All Rights Reserved.
+Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
+Created on:       26/09/21 05:22:50
+Executable Image: /home/invis/InviS/osdev/build/kernel.sys
+creating a RAW Binary Image executable
+
+
+                        +------------+
+                        |   Groups   |
+                        +------------+
+
+Group                           Address              Size
+=====                           =======              ====
+
+DGROUP                          00000eb2             00000074
+
+
+
+                        +--------------+
+                        |   Segments   |
+                        +--------------+
+
+Segment                Class          Group          Address         Size
+=======                =====          =====          =======         ====
+
+_START                 CODE           AUTO           00000500        00000020
+_TEXT                  CODE           AUTO           00000520        00000992
+CONST                  DATA           DGROUP         00000eb2        0000002e
+CONST2                 DATA           DGROUP         00000ee0        00000011
+_DATA                  DATA           DGROUP         00000ef2        00000014
+_BSS                   BSS            DGROUP         00000f06        00000020
+
+
+                        +----------------+
+                        |   Memory Map   |
+                        +----------------+
+
+* = unreferenced symbol
++ = symbol only referenced locally
+
+Address        Symbol
+=======        ======
+
+Module: /home/invis/InviS/osdev/build/kernel/asm/intvec.obj(/home/invis/InviS/osdev/build/kernel/asm/intvec.obj)
+00000520       _int21_handler
+Module: /home/invis/InviS/osdev/build/kernel/asm/kernel.obj(/home/invis/InviS/osdev/build/kernel/asm/kernel.obj)
+00000500       _start
+Module: /home/invis/InviS/osdev/build/kernel/c/kernel.obj(/home/invis/InviS/osdev/build/kernel/c/kernel.obj)
+00000532       _DOSKernMain
+00000561+      _init_interrupts
+000005a4       _Int21Handler
+Module: /home/invis/InviS/osdev/build/kernel/c/prf.obj(/home/invis/InviS/osdev/build/kernel/c/prf.obj)
+00000639+      _putc
+00000650+      _puts
+0000067f       _printf
+0000096f+      printf_unsigned_
+000009fa+      printf_signed_
+00000ee0+      _hexChars
+Module: /home/invis/InviS/osdev/build/kernel/c/dev/device.obj(/home/invis/InviS/osdev/build/kernel/c/dev/device.obj)
+00000a5d+      _ConsoleRead
+00000a73+      _ConsoleWrite
+00000ac5       DevInit_
+00000b0d+      DevOpen_
+00000b7a+      DevClose_
+00000bd8+      DevRead_
+00000c6f       DevWrite_
+Module: /home/invis/InviS/osdev/build/lib/lib.lib(/home/invis/InviS/osdev/src/lib/clib/string.c)
+00000d06+      _strchr
+00000d57+      _strcpy
+00000dc1       _strlen
+00000df9       _strcmp
+Module: /home/invis/InviS/osdev/build/lib/lib.lib(helpers/divmul.asm)
+00000e4d*      __U4M
+00000e63       __U4D
+
+
+                        +---------------------+
+                        |   Module Segments   |
+                        +---------------------+
+
+! = 32-bit segment
+c = initialized communal data
+
+Module          Segment               Class           Address         Size
+======          =======               =====           =======         ====
+
+/home/invis/InviS/osdev/build/kernel/asm/intvec.obj
+                _TEXT                 CODE           00000520         00000012
+/home/invis/InviS/osdev/build/kernel/asm/kernel.obj
+                _START                CODE           00000500         00000020
+/home/invis/InviS/osdev/build/kernel/c/kernel.obj
+                _TEXT                 CODE           00000532         00000107
+                CONST                 DATA           00000eb2         00000025
+                CONST2                DATA           00000ee0         00000000
+                _DATA                 DATA           00000ef2         00000000
+/home/invis/InviS/osdev/build/kernel/c/prf.obj
+                _TEXT                 CODE           00000639         00000424
+                CONST                 DATA           00000ed8         00000000
+                CONST2                DATA           00000ee0         00000011
+                _DATA                 DATA           00000ef2         00000000
+/home/invis/InviS/osdev/build/kernel/c/dev/device.obj
+                _TEXT                 CODE           00000a5d         000002a9
+                CONST                 DATA           00000ed8         00000008
+                CONST2                DATA           00000ef2         00000000
+                _DATA                 DATA           00000ef2         00000014
+                _BSS                  BSS            00000f06         00000020
+/home/invis/InviS/osdev/src/lib/clib/string.c
+                _TEXT                 CODE           00000d06         00000147
+                CONST                 DATA           00000ee0         00000000
+                CONST2                DATA           00000ef2         00000000
+                _DATA                 DATA           00000f06         00000000
+helpers/divmul.asm
+                _TEXT                 CODE           00000e4d         00000065
+Warning! W1014: stack segment not found
+
+
+                        +--------------------+
+                        |   Libraries Used   |
+                        +--------------------+
+
+/home/invis/InviS/osdev/build/lib/lib.lib
+
+
+                        +-----------------------+
+                        |   Linker Statistics   |
+                        +-----------------------+
+
+Stack size:  0200 (512.)
+Memory size:  0a26 (2598.)
+Entry point address: 00000500
+Link time: 00:00.97

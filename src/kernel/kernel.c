@@ -25,7 +25,7 @@ void _cdecl init_interrupts()
     vec[0x43] = FP_SEG(int21_handler);
 }
 
-void _cdecl Int21Handler(const REGS* regs)
+void _cdecl Int21Handler(REGS* regs)
 {
     const uint8_t ah = (uint8_t)(regs->ax >> 8);
 

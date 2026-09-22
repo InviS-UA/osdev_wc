@@ -12,7 +12,6 @@ section _TEXT class=CODE
     push es
     pushf
 
-    ; Передаємо C-функції pointer на контекст
     mov ax, sp
     push sp
     call %2

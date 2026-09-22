@@ -2,7 +2,7 @@
 #include <clib/string.h>
 #include "x86/vga.h"
 
-static Device* devices[DEV_MAX];
+static Device devices[DEV_MAX];
 
 size_t _cdecl ConsoleRead(Device* dev, void far* buff, size_t size)
 {
@@ -27,6 +27,7 @@ static Device CON =
 {
     "CON",
     DEV_READ | DEV_WRITE,
+    1,
     ConsoleRead,
     ConsoleWrite,
     NULL
@@ -36,6 +37,7 @@ static Device DevNull =
 {
     "NUL",
     DEV_READ | DEV_WRITE,
+    1,
     NULL,
     NULL,
     NULL
@@ -44,11 +46,11 @@ static Device DevNull =
 void DevInit()
 {
     for (int i = 0; i < DEV_MAX; i++)
-        devices[i] = &DevNull;
+        devices[i].opened = 0;
 
-    devices[DEV_STDOUT] = &CON;
-    devices[DEV_STDIN] = &CON;
-    devices[DEV_STDERR] = &CON;
+    devices[DEV_STDOUT] = CON;
+    devices[DEV_STDIN] = CON;
+    devices[DEV_STDERR] = CON;
 }
 
 int DevOpen(const char* name)
@@ -57,7 +59,7 @@ int DevOpen(const char* name)
         return -1;
 
     for (int i = 0; i < DEV_MAX; i++)
-        if (strcmp(devices[i]->name, name) == 0)
+        if (strcmp(devices[i].name, name) == 0)
             return i;
 
     return -1;
@@ -68,10 +70,10 @@ int DevClose(int handle)
     if (handle < 0 || handle >= DEV_MAX || handle < 3)
         return -1;
 
-    if (!devices[handle])
+    if (!devices[handle].opened)
         return -1;
 
-    devices[handle] = NULL;
+    devices[handle].opened = 0;
 
     return 0;
 }
@@ -80,10 +82,10 @@ size_t DevRead(int handle, void far* buff, size_t size)
 {
     Device* device;
 
-    if (handle < 0 || handle >= DEV_MAX || !devices[handle] || !(devices[handle]->flags & DEV_READ))
+    if (handle < 0 || handle >= DEV_MAX || !devices[handle].opened || !(devices[handle].flags & DEV_READ))
         return 0;
 
-    device = devices[handle];
+    device = &devices[handle];
 
     if (!device->read)
         return 0;
@@ -95,10 +97,10 @@ size_t DevWrite(int handle, const void far* buff, size_t size)
 {
     Device* device;
 
-    if (handle < 0 || handle >= DEV_MAX || !devices[handle] || !(devices[handle]->flags & DEV_WRITE))
+    if (handle < 0 || handle >= DEV_MAX || !devices[handle].opened || !(devices[handle].flags & DEV_WRITE))
         return 0;
 
-    device = devices[handle];
+    device = &devices[handle];
 
     if (!device->write)
         return 0;

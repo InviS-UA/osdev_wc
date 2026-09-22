@@ -21,6 +21,7 @@ struct Device
 {
     const char* name;
     uint16_t flags;
+    int opened;
 
     DevReadFunc read;
     DevWriteFunc write;

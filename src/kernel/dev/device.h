@@ -3,10 +3,6 @@
 #include <clib/stdint.h>
 #include <clib/stddef.h>
 
-#define DEV_STDIN 0
-#define DEV_STDOUT 1
-#define DEV_STDERR 2
-
 #define DEV_MAX 16
 
 #define DEV_READ 0x01

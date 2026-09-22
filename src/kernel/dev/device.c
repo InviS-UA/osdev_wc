@@ -33,24 +33,14 @@ static Device CON =
     NULL
 };
 
-static Device DevNull =
-{
-    "NUL",
-    DEV_READ | DEV_WRITE,
-    1,
-    NULL,
-    NULL,
-    NULL
-};
-
 void DevInit()
 {
     for (int i = 0; i < DEV_MAX; i++)
         devices[i].opened = 0;
 
-    devices[DEV_STDOUT] = CON;
-    devices[DEV_STDIN] = CON;
-    devices[DEV_STDERR] = CON;
+    devices[0] = CON;
+    devices[1] = CON;
+    devices[2] = CON;
 }
 
 int DevOpen(const char* name)

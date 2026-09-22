@@ -6,11 +6,11 @@
 #include <defs.h>
 #include <dev/device.h>
 
-// Assembly wrapp handler
+// Assembly interrupt handlers
 extern void _cdecl int21_handler();
 
-// C interrupt function
-void _cdecl Int21Handler(const REGS* regs);
+// C interrupt handlers
+void _cdecl Int21Handler(REGS* regs);
 
 // Initialization functions
 void _cdecl init_interrupts();

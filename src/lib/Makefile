@@ -1,5 +1,5 @@
 ASMFLAGS += -f obj
-CFLAGS16 += -I. -4 -d3 -s -wx -ms -zl -zq -fr
+CFLAGS16 += -I. -4 -d3 -s -wx -ms -zl -zq -za99 -fr
 
 SRC_C=$(wildcard *.c */*.c)
 SRC_ASM=$(wildcard *.asm */*.asm)

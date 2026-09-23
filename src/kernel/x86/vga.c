@@ -7,27 +7,27 @@ const unsigned SCREEN_WIDTH = 80;
 const unsigned SCREEN_HEIGHT = 25;
 const uint8_t DEFAULT_COLOR = 0x7;
 
-uint8_t far* VgaMemoryAddress = (uint8_t far*)0xB8000000;
-int VgaX = 0, VgaY = 0;
+uint8_t far* g_VgaMemoryAddress = (uint8_t far*)0xB8000000;
+int g_VgaX = 0, g_VgaY = 0;
 
 void VgaPutChar(int x, int y, char c)
 {
-    VgaMemoryAddress[2 * (y * SCREEN_WIDTH + x)] = c;
+    g_VgaMemoryAddress[2 * (y * SCREEN_WIDTH + x)] = c;
 }
 
 void VgaPutColor(int x, int y, uint8_t color)
 {
-    VgaMemoryAddress[2 * (y * SCREEN_WIDTH + x) + 1] = color;
+    g_VgaMemoryAddress[2 * (y * SCREEN_WIDTH + x) + 1] = color;
 }
 
 char VgaGetChar(int x, int y)
 {
-    return VgaMemoryAddress[2 * (y * SCREEN_WIDTH + x)];
+    return g_VgaMemoryAddress[2 * (y * SCREEN_WIDTH + x)];
 }
 
 uint8_t VgaGetColor(int x, int y)
 {
-    return VgaMemoryAddress[2 * (y * SCREEN_WIDTH + x) + 1];
+    return g_VgaMemoryAddress[2 * (y * SCREEN_WIDTH + x) + 1];
 }
 
 void VgaSetCursor(int x, int y)
@@ -49,9 +49,9 @@ void VgaClear()
             VgaPutColor(x, y, DEFAULT_COLOR);
         }
 
-    VgaX = 0;
-    VgaY = 0;
-    VgaSetCursor(VgaX, VgaY);
+    g_VgaX = 0;
+    g_VgaY = 0;
+    VgaSetCursor(g_VgaX, g_VgaY);
 }
 
 void VgaScrollBack(int lines)
@@ -70,7 +70,7 @@ void VgaScrollBack(int lines)
             VgaPutColor(x, y, DEFAULT_COLOR);
         }
 
-    VgaY -= lines;
+    g_VgaY -= lines;
 }
 
 void VgaPutc(char c)
@@ -78,29 +78,29 @@ void VgaPutc(char c)
     switch (c)
     {
         case '\n':
-            VgaX = 0;
-            VgaY++;
+            g_VgaX = 0;
+            g_VgaY++;
             break;
         case '\t':
-            for (int i = 0; i < 4 - (VgaX % 4); i++)
+            for (int i = 0; i < 4 - (g_VgaX % 4); i++)
                 VgaPutc(' ');
             break;
         case '\r':
-            VgaX = 0;
+            g_VgaX = 0;
             break;
         default:
-            VgaPutChar(VgaX, VgaY, c);
-            VgaX++;
+            VgaPutChar(g_VgaX, g_VgaY, c);
+            g_VgaX++;
             break;
     }
 
-    if (VgaX >= SCREEN_WIDTH)
+    if (g_VgaX >= SCREEN_WIDTH)
     {
-        VgaY++;
-        VgaX = 0;
+        g_VgaY++;
+        g_VgaX = 0;
     }
-    if (VgaY >= SCREEN_HEIGHT)
+    if (g_VgaY >= SCREEN_HEIGHT)
         VgaScrollBack(1);
 
-    VgaSetCursor(VgaX, VgaY);
+    VgaSetCursor(g_VgaX, g_VgaY);
 }

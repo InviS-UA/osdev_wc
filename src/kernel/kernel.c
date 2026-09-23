@@ -1,11 +1,44 @@
 #include "kernel.h"
 #include "x86/vga.h"
+#include "dosalloc.h"
 
 void _cdecl DOSKernMain(uint16_t bootDrive)
 {
     init_kernel();
 
-    printf("Hello from kernel!\n");
+    const int size1 = 1024;
+    const int size2 = 101;
+    const int size3 = 556;
+    int far* ptr1;
+    int far* ptr2;
+    int far* ptr3;
+
+    ptr1 = DosAlloc(size1 * sizeof(int));
+    ptr2 = DosAlloc(size2 * sizeof(int));
+    ptr3 = DosAlloc(size3 * sizeof(int));
+
+    for (int i = 0; i < size1; i++)
+        ptr1[i] = i + 1;
+
+    for (int i = 0; i < size2; i++)
+        ptr2[i] = i + 1;
+
+    for (int i = 0; i < size3; i++)
+        ptr3[i] = i + 1;
+    
+    DosFree(ptr1);
+    DosFree(ptr2);
+    DosFree(ptr3);
+
+    DosHeapDump();
+
+    ptr1 = DosAlloc(size1 * sizeof(int));
+    ptr2 = DosAlloc(size2 * sizeof(int));
+
+    DosFree(ptr1);
+    DosFree(ptr2);
+
+    DosHeapDump();
 
     for (;;);
 }
@@ -13,6 +46,7 @@ void _cdecl DOSKernMain(uint16_t bootDrive)
 void _cdecl init_kernel()
 {
     init_interrupts();
+    DosInitHeap((void far*)0x10000000, 16 * 1024);
     DevInit();
     VgaClear();
 }

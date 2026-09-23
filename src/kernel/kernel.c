@@ -1,6 +1,10 @@
 #include "kernel.h"
 #include "x86/vga.h"
 #include "dosalloc.h"
+#include <clib/memory.h>
+#include "prf.h"
+#include <defs.h>
+#include <dev/device.h>
 
 void _cdecl DOSKernMain(uint16_t bootDrive)
 {
@@ -26,12 +30,12 @@ void _cdecl DOSKernMain(uint16_t bootDrive)
     for (int i = 0; i < size3; i++)
         ptr3[i] = i + 1;
     
+    DosHeapDump();
+
     DosFree(ptr1);
     DosFree(ptr2);
     DosFree(ptr3);
-
-    DosHeapDump();
-
+    
     ptr1 = DosAlloc(size1 * sizeof(int));
     ptr2 = DosAlloc(size2 * sizeof(int));
 

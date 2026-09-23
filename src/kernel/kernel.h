@@ -2,9 +2,6 @@
 
 #include <clib/stdint.h>
 #include <clib/regs.h>
-#include "prf.h"
-#include <defs.h>
-#include <dev/device.h>
 
 // Assembly interrupt handlers
 extern void _cdecl int21_handler();

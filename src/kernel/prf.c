@@ -8,6 +8,15 @@ void _cdecl putc(char c)
     VgaPutc(c);
 }
 
+void _cdecl puts_f(const char far* str)
+{
+    while (*str)
+    {
+        putc(*str);
+        str++;
+    }
+}
+
 void _cdecl puts(const char* str)
 {
     while (*str)
@@ -100,7 +109,10 @@ void _cdecl printf(const char* fmt, ...)
                 putc((char)va_arg(args, int));
                 break;
             case 's':
-                puts(va_arg(args, const char*));
+                if (length != PRINTF_LENGTH_LONG)
+                    puts(va_arg(args, const char*));
+                else
+                    puts_f(va_arg(args, const char far*));
                 break;
             case '%':
                 putc('%');

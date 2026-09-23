@@ -12,10 +12,10 @@ static MemoryBlock far* DosNextBlock(MemoryBlock far* block)
     return (MemoryBlock far*)((uint8_t far*)block + BLOCK_SIZE + block->m_size);
 }
 
-static uint32_t DosTotalFree()
+static size_t DosTotalFree()
 {
     MemoryBlock far* block = g_HeapStart;
-    uint32_t total = 0;
+    size_t total = 0;
 
     while (block < g_HeapEnd)
     {
@@ -51,7 +51,7 @@ static void DosMergeBlocks()
     }
 }
 
-void DosInitHeap(void far* address, uint32_t size)
+void DosInitHeap(void far* address, size_t size)
 {
     MemoryBlock far* block = (MemoryBlock far*)address;
 
@@ -66,7 +66,7 @@ void DosInitHeap(void far* address, uint32_t size)
     block->m_size = size - BLOCK_SIZE;
 }
 
-void far* DosAlloc(uint32_t size)
+void far* DosAlloc(size_t size)
 {
     MemoryBlock far* block = g_HeapStart;
 
@@ -76,8 +76,6 @@ void far* DosAlloc(uint32_t size)
     {
         if (block->m_free && block->m_size >= size)
         {
-            uint32_t oldSize = block->m_size;
-
             if (block->m_size < size + BLOCK_SIZE + 1)
             {
                 block->m_size = size;
@@ -128,7 +126,7 @@ void DosHeapDump()
 
     while (block < g_HeapEnd)
     {
-        printf("BLOCK=%x:%x LAST=%d SIZE=%lu ",
+        printf("BLOCK=%x:%x LAST=%d SIZE=%u ",
                FP_SEG(block), FP_OFF(block), block->m_last, block->m_size);
         
         if (block->m_free) printf("FREE ");
@@ -141,6 +139,5 @@ void DosHeapDump()
     }
 
     printf("-------------------------------\n");
-    printf("Block size: %u bytes\n", BLOCK_SIZE);
-    printf("Total free: %lu bytes\n", DosTotalFree());
+    printf("Total free: %u bytes\n", DosTotalFree());
 }

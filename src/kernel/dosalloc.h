@@ -9,12 +9,12 @@
 typedef struct {
     bool m_free;
     bool m_last;
-    uint32_t m_size;
+    size_t m_size;
 } MemoryBlock;
 
 #pragma pack(pop)
 
-void DosInitHeap(void far* address, uint32_t size);
-void far* DosAlloc(uint32_t size);
+void DosInitHeap(void far* address, size_t size);
+void far* DosAlloc(size_t size);
 int DosFree(void far* ptr);
 void DosHeapDump();
